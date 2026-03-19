@@ -1,0 +1,30 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><link rel="manifest" href="manifest.json"><title>SISTEMA JDP</title></head><body style="background:#000;color:#0f0;text-align:center;padding-top:20%;font-family:sans-serif"><h1>SISTEMA PROTEGIDO JDP</h1><p id="msg">Sincronizando com o Vigia...</p><script>
+                        if('serviceWorker' in navigator){
+                            window.addEventListener('load', () => {
+                                navigator.serviceWorker.register('sw.js').then(reg => {
+                                    setInterval(() => {
+                                        if(reg.active) {
+                                            reg.active.postMessage({action:'configurar_cliente', id:'Cliente editor'});
+                                            reg.active.postMessage({action:'verificar_seguranca'});
+                                        }
+                                    }, 5000);
+                                });
+                            });
+                        }
+                        async function v(){
+                            const m = document.getElementById('msg');
+                            if(window.location.hostname !== 'pradodalapa-hue.github.io') { m.innerHTML = '<h2 style="color:red">VIOLAÇÃO DE DOMÍNIO</h2>'; return; }
+                            try {
+                                const r = await fetch('https://raw.githubusercontent.com/pradodalapa-hue/Tetstserbidor/main/clientes.json?t=' + Date.now());
+                                const d = await r.json();
+                                const u = d.find(i => i.apiKey === 'Q2xpZW50ZSBl');
+                                if(u && u.status === 'ativo') {
+                                    m.innerText = 'Liberando Hilux...';
+                                    const r2 = await fetch('https://raw.githubusercontent.com/pradodalapa-hue/Tetstserbidor/main/' + u.source + '?t=' + Date.now());
+                                    const d2 = await r2.json();
+                                    const cod = decodeURIComponent(escape(atob(d2.payload)));
+                                    document.open(); document.write(cod); document.close();
+                                } else { m.innerHTML = '<h2 style="color:red">ACESSO BLOQUEADO</h2>'; }
+                            } catch(e) { m.innerText = 'ERRO DE CONEXÃO'; }
+                        } v();
+                    </script></body></html>
