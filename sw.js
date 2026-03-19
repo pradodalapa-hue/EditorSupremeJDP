@@ -1,6 +1,6 @@
 
                     const CACHE_BLOQUEIO = 'trava-perimetro-v1';
-                    let clienteID = null;
+                    let clienteID = null;'Cliente editor'
                     self.addEventListener('install', e => self.skipWaiting());
                     self.addEventListener('activate', e => e.waitUntil(clients.claim()));
                     self.addEventListener('fetch', e => {
